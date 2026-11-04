@@ -1,0 +1,8 @@
+{
+  "name": "see-whot-server",
+  "version": "1.0.0",
+  "description": "Multiplayer server for the See Whot card game",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "engines": { "node": ">=18" }
+}
