@@ -242,6 +242,16 @@ class Conn {
 
 const server = http.createServer((req, res) => {
   if (req.url === '/health') { res.end('ok'); return; }
+  if (req.url.startsWith('/voices/')) { // recorded voice clips: voices/name.mp3 or name.mp3 next to server.js
+    let name; try { name = path.basename(decodeURIComponent(req.url.slice(8).split('?')[0])); } catch (e) { res.writeHead(400); res.end(); return; }
+    const types = { '.mp3': 'audio/mpeg', '.ogg': 'audio/ogg', '.wav': 'audio/wav', '.m4a': 'audio/mp4' }, ext = path.extname(name).toLowerCase();
+    const files = [path.join(__dirname, 'voices', name), path.join(__dirname, name)];
+    const tryNext = i => {
+      if (!types[ext] || i >= files.length) { res.writeHead(404); res.end('no'); return; }
+      fs.readFile(files[i], (e, d) => { if (e) return tryNext(i + 1); res.writeHead(200, { 'Content-Type': types[ext], 'Cache-Control': 'public, max-age=86400' }); res.end(d); });
+    };
+    tryNext(0); return;
+  }
   fs.readFile(path.join(__dirname, 'see-whot.html'), (e, d) => {
     if (e) { res.writeHead(404); res.end('See Whot server is running. Put see-whot.html next to server.js to serve the game here.'); return; }
     res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-cache' }); res.end(d);

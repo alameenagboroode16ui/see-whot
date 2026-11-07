@@ -111,7 +111,7 @@ input,select{width:100%;padding:12px;border:1px solid var(--ln);border-radius:12
 <div class="felt" id="felt"><div id="opps"></div><div class="tbl" id="tbl"></div><div class="info" id="info"></div><div class="bub" id="bub"></div><div class="hand" id="hand"></div><div class="me" id="me"></div></div>
 <div class="row"><button class="sb" style="flex:1" onclick="chatTab('emo')">Emoji</button><button class="sb" style="flex:1" onclick="chatTab('txt')">Text</button></div><div class="emo" id="emo" style="display:none"></div><div class="row" id="txt" style="display:none;margin-top:6px"><input id="ci" placeholder="Say something" maxlength="60"><button class="sb" onclick="sendChat()">Send</button></div></section>
 </div>
-<div class="modal" id="ad"><div><small class="mut">Advertisement (test)</small><h2>Test interstitial ad</h2><p class="mut">Ad unit ID:<br><span id="adid"></span></p><button class="btn" id="adx" disabled>Close in 5</button></div></div><div id="pop"></div><div class="modal" id="modal"><div id="mb"></div></div>
+<div id="pop"></div><div class="modal" id="modal"><div id="mb"></div></div>
 <nav id="nav"><button data-v="lobby" onclick="show('lobby')">Lobby</button><button data-v="stats" onclick="show('stats')">Stats</button><button data-v="profile" onclick="show('profile')">Settings</button></nav>
 <script>
 const $=id=>document.getElementById(id),S=['▲','■','●','✝','★'];
@@ -135,9 +135,9 @@ async function kvLoad(){try{const d=await idb();for(const k of ['sw_photo','sw_w
 const AD_APP_ID='ca-app-pub-6942814311153498~6565310201',AD_ID='ca-app-pub-6942814311153498/5971635023',AD_TEST=true;let adDue=0;
 async function showAd(){const P=window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.AdMob;
  if(P){try{try{await P.initialize({initializeForTesting:AD_TEST})}catch(e){}await P.prepareInterstitial({adId:AD_ID,isTesting:AD_TEST});await P.showInterstitial();return}catch(e){}}
- let s=5;$('adid').textContent=AD_ID;const b=$('adx');b.disabled=true;b.textContent='Close in '+s;$('ad').classList.add('on');
- const t=setInterval(()=>{s--;if(s<=0){clearInterval(t);b.disabled=false;b.textContent='Close'}else b.textContent='Close in '+s},1000);
- b.onclick=()=>{if(!b.disabled)$('ad').classList.remove('on')}}
+ 
+ 
+ }
 let ws=null,wsOk=false,wsTry=0,NQ=[],nbusy=0;
 function srv(){const s=ls.get('sw_srv','');if(s)return s;const h=location.host;return location.protocol.startsWith('http')&&!h.includes('claude')&&!h.includes('anthropic')?(location.protocol==='https:'?'wss://':'ws://')+h:''}
 function netState(){const e=$('net');if(e)e.textContent=wsOk?'Server connected. You can play with people around the world.':'No server connected: bots fill empty seats after 20 seconds.'}
@@ -191,7 +191,12 @@ function guest(){go($('nm').value.trim()||'Guest'+(100+Math.floor(Math.random()*
 function go(n){user=n;ls.set('sw_name',n);show('lobby')}
 function logout(){stopMusic();if(ws){const w=ws;ws=null;w.close()}ls.set('sw_session','');acct='';user='';for(const k in mem)delete mem[k];TR=[];drawTr();$('em').value='';$('pw').value='';show('auth')}
 function pic(el,k,max){const f=el.files[0];if(!f)return;const im=new Image();im.onload=()=>{const r=Math.min(1,max/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*r;c.height=im.height*r;c.getContext('2d').drawImage(im,0,0,c.width,c.height);const u=c.toDataURL('image/jpeg',.7);mem[k]=u;ls.set(k,u);kvPut(k,u);skin();$('pst').textContent=(k==='sw_photo'?'Profile picture':'Wallpaper')+' updated.'};im.onerror=()=>alert('Could not read that image. Try a JPG or PNG.');im.src=URL.createObjectURL(f)}
-function speak(t,q){if(muted||!window.speechSynthesis)return;try{if(!q)speechSynthesis.cancel();speechSynthesis.resume();const u=new SpeechSynthesisUtterance(t);u.lang='en-US';u.rate=.9;speechSynthesis.speak(u)}catch(e){}}
+const noV=new Set();let curA=null;
+const voiceKey=t=>String(t).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+function speak(t,q){if(muted)return;const k=voiceKey(t);
+ if(!noV.has(k)){try{const a=new Audio('voices/'+k+'.mp3');a.volume=1;let fell=0;const fb=()=>{if(fell)return;fell=1;noV.add(k);ttsSpeak(t,1)};a.onerror=fb;if(!q&&curA)curA.pause();curA=a;const p=a.play();if(p&&p.catch)p.catch(e=>{if(!e||e.name!=='NotAllowedError')fb()});return}catch(e){}}
+ ttsSpeak(t,q)}
+function ttsSpeak(t,q){if(!window.speechSynthesis)return;try{if(!q)speechSynthesis.cancel();speechSynthesis.resume();const u=new SpeechSynthesisUtterance(t);u.lang='en-US';u.rate=.9;speechSynthesis.speak(u)}catch(e){}}
 let mm=ls.get('sw_mm','built'),TR=[],cur=0,ac,mg,mt=0,mi=0,ml='',playing=false;
 const hz=m=>440*Math.pow(2,(m-69)/12);
 function actx(){if(!ac){try{ac=new(window.AudioContext||window.webkitAudioContext)();mg=ac.createGain();mg.gain.value=.5;mg.connect(ac.destination)}catch(e){}}if(ac&&ac.state==='suspended')ac.resume();return ac}
@@ -266,7 +271,7 @@ function flyEmoji(e,pi,rm){if(pi===0&&!rm&&G&&G.net)send({t:'emoji',e});const el
 function sfx(n){if(muted||!actx())return;const t=ac.currentTime+.02,q={1:[392,523],2:[523,392],5:[523,440,349],8:[330,262,196],14:[262,330,392,523],20:[392,523,659],last:[660,880],win:[523,659,784,1047,1319],lose:[392,330,262,196]}[n]||[440];q.forEach((f,i)=>tone(f,t+i*(n==='win'?.14:.09),n==='win'?.3:.18,'square',n==='win'?.3:.12))}
 const SH={'▲':'triangle','■':'square','●':'circle','✝':'cross','★':'star'};
 function vtxt(n,sh){if(n===2||n===5)return G.pend===3?'Ba meta jor':'Col lect '+NUM[G.pend].toLowerCase()+' jor';if(n===20)return 'I want '+SH[sh];return VOICE[n]}
-function speakJ(t){if(muted||!window.speechSynthesis)return;try{speechSynthesis.cancel();speechSynthesis.resume();const u=new SpeechSynthesisUtterance(t),v=speechSynthesis.getVoices().find(x=>/en[-_]JM/i.test(x.lang));if(v){u.voice=v;u.lang=v.lang}else u.lang='en-US';u.rate=.9;speechSynthesis.speak(u)}catch(e){}}
+function speakJ(t){if(muted)return;if(!noV.has(voiceKey(t))){speak(t);return}if(!window.speechSynthesis)return;try{speechSynthesis.cancel();speechSynthesis.resume();const u=new SpeechSynthesisUtterance(t),v=speechSynthesis.getVoices().find(x=>/en[-_]JM/i.test(x.lang));if(v){u.voice=v;u.lang=v.lang}else u.lang='en-US';u.rate=.9;speechSynthesis.speak(u)}catch(e){}}
 let pt=0;
 function pop(n,l,sh,who){const sub={1:'Everyone hold on!',8:'Next player misses a turn!',14:'Everyone picks one card!',20:'New shape:',last:'Only one card left!'}[n]||('Next player picks '+G.pend);
  $('pop').innerHTML=`<div class="pp"><small>${esc(who)}${n==='last'?'':' played'}</small><b>${n===20?'I want':l}</b><em>${n===20?ico(sh,36):sub}</em></div>`;$('pop').classList.add('on');clearTimeout(pt);pt=setTimeout(()=>$('pop').classList.remove('on'),600)}
