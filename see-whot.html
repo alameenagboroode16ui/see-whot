@@ -319,4 +319,84 @@ function bot(){if(Math.random()<.1)flyEmoji(EM[Math.floor(Math.random()*EM.lengt
  const sh=L==='easy'?S[Math.floor(Math.random()*5)]:(Object.keys(cnt).sort((a,c)=>cnt[c]-cnt[a])[0]||S[0]);
  play(G.turn,b,sh)}
 $('shp5').innerHTML=S.map(s=>ico(s,16)).join('');tracksLoad();$('pw').addEventListener('keydown',e=>{if(e.key==='Enter')submitAuth()});setTimeout(()=>{if(acct&&user){loadAcct();show('lobby');netConnect()}else show('auth')},2400);
-</script></body></html>
+</script><!-- ===== SEE WHOT - REMOVE ADS - START - Paste this before </body> ===== -->
+<style>
+  #removeAdsBtn {
+    background: gold;
+    color: black;
+    padding: 15px 20px;
+    font-weight: bold;
+    font-size: 16px;
+    border-radius: 12px;
+    border: none;
+    width: 90%;
+    max-width: 320px;
+    display: block;
+    margin: 15px auto;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #b8860b;
+  }
+  #removeAdsBtn:active { transform: translateY(2px); box-shadow: none; }
+  #iPaidBtn {
+    background: #25D366;
+    color: white;
+    padding: 12px 20px;
+    font-weight: bold;
+    font-size: 15px;
+    border-radius: 12px;
+    border: none;
+    width: 90%;
+    max-width: 320px;
+    display: none;
+    margin: 10px auto;
+    cursor: pointer;
+  }
+</style>
+
+<!-- Gold Button - shows in game -->
+<button id="removeAdsBtn" onclick="payForRemoveAds()">
+  ⭐ Remove Ads - ₦3,000
+</button>
+
+<!-- This button only shows AFTER they go to pay -->
+<button id="iPaidBtn" onclick="confirmPaid()">
+  ✅ I Have Paid - Remove Ads Now
+</button>
+
+<script>
+  // Your Paystack Payment Link
+  var PAYSTACK_LINK = "https://paystack.shop/pay/pwo9l7pfss";
+
+  // 1. When page loads, check if user already paid before
+  if (localStorage.getItem("seeWhot_noAds") === "yes") {
+    hideAllAds();
+  }
+
+  // 2. When they tap Gold Button
+  function payForRemoveAds() {
+    window.open(PAYSTACK_LINK, "_blank");
+    // Show the green "I Have Paid" button after they go to pay
+    document.getElementById("iPaidBtn").style.display = "block";
+    alert("Pay ₦3,000 on Paystack, then come back here and tap 'I Have Paid'");
+  }
+
+  // 3. When they come back and tap "I Have Paid"
+  function confirmPaid() {
+    localStorage.setItem("seeWhot_noAds", "yes");
+    hideAllAds();
+    alert("Thank you! Ads removed forever on this phone.");
+  }
+
+  // 4. Hide ads
+  function hideAllAds() {
+    // Hide the buttons themselves
+    var btn1 = document.getElementById("removeAdsBtn");
+    var btn2 = document.getElementById("iPaidBtn");
+    if (btn1) btn1.style.display = "none";
+    if (btn2) btn2.style.display = "none";
+    // Hide any ad boxes in your game - add your ad IDs here if you have different names
+    var ads = document.querySelectorAll(".ad, .ads, #ads, #ad-banner, #bannerAd, .advert");
+    ads.forEach(function(a){ a.style.display = "none"; });
+  }
+</script>
+<!-- ===== SEE WHOT - REMOVE ADS - END ===== --></body></html>
