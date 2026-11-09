@@ -319,4 +319,25 @@ function bot(){if(Math.random()<.1)flyEmoji(EM[Math.floor(Math.random()*EM.lengt
  const sh=L==='easy'?S[Math.floor(Math.random()*5)]:(Object.keys(cnt).sort((a,c)=>cnt[c]-cnt[a])[0]||S[0]);
  play(G.turn,b,sh)}
 $('shp5').innerHTML=S.map(s=>ico(s,16)).join('');tracksLoad();$('pw').addEventListener('keydown',e=>{if(e.key==='Enter')submitAuth()});setTimeout(()=>{if(acct&&user){loadAcct();show('lobby');netConnect()}else show('auth')},2400);
+</script><script>
+let mpCount = Number(localStorage.getItem("mpCount") || 0);
+
+document.addEventListener("click", function(e) {
+  let text = (e.target.innerText || e.target.textContent || "").toLowerCase();
+  let isMultiplayerBtn = text.includes("create private") ||
+                         text.includes("join") ||
+                         text.includes("online match") ||
+                         text.includes("find match") ||
+                         text.includes("play online");
+  if (isMultiplayerBtn) {
+    mpCount++;
+    localStorage.setItem("mpCount", mpCount);
+    if (mpCount >= 2) {
+      localStorage.setItem("mpCount", 0);
+      if (window.AppInventor) {
+        window.AppInventor.setWebViewString("SHOW_AD");
+      }
+    }
+  }
+});
 </script></body></html>
