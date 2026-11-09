@@ -340,4 +340,50 @@ document.addEventListener("click", function(e) {
     }
   }
 });
+</script><script>
+// ===== KODULAR + ADMOB INTERSTITIAL - WORKS IN APK / AAB / PLAY STORE =====
+
+function triggerKodularAd() {
+  try {
+    if (window.AppInventor) {
+      window.AppInventor.setWebViewString("SHOW_AD");
+      // Clear it after 1 second so it can trigger again next time
+      setTimeout(function() {
+        if (window.AppInventor) window.AppInventor.setWebViewString("");
+      }, 1000);
+    }
+  } catch(e) {}
+}
+
+// Count multiplayer clicks - show ad after every 2 games, not every click
+// This is what Play Store / AdMob wants - no spam ads
+let mpCount = Number(localStorage.getItem("mpCount") || 0);
+
+document.addEventListener("click", function(e) {
+  let btn = e.target.closest("button");
+  if (!btn) return;
+  let text = (btn.innerText || btn.textContent || "").toLowerCase();
+
+  let isPlayBtn = text.includes("play online") ||
+                  text.includes("create private") ||
+                  text.includes("join") ||
+                  text.includes("find match") ||
+                  text.includes("online match") ||
+                  text.includes("play");
+
+  if (isPlayBtn) {
+    mpCount++;
+    localStorage.setItem("mpCount", mpCount);
+
+    if (mpCount >= 2) {
+      localStorage.setItem("mpCount", 0);
+      // Small delay so game loads first, then ad shows
+      setTimeout(triggerKodularAd, 500);
+    }
+  }
+});
+
+// You can also call this manually from anywhere in your game:
+// window.triggerKodularAd();
+window.triggerKodularAd = triggerKodularAd;
 </script></body></html>
