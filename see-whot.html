@@ -396,13 +396,26 @@ document.addEventListener("click", function(e) {
 // You can also call this manually from anywhere in your game:
 // window.triggerKodularAd();
 window.triggerKodularAd = triggerKodularAd;
-// AUTO HIDE MUSIC BOX - Only show in Lobby
+// AUTO HIDE MUSIC BOX - Only show in Lobby - Strong Version
 setInterval(function() {
     var lobby = document.getElementById("lobby");
     var musicBox = document.getElementById("music-box");
     if (!lobby || !musicBox) return;
 
-    if (lobby.style.display !== "none") {
+    var style = window.getComputedStyle(lobby);
+    var isLobbyVisible = style.display !== "none" && style.visibility !== "hidden" && style.opacity !== "0" && lobby.offsetParent !== null;
+
+    var gameScreens = ["felt", "game", "board", "table", "gameArea", "playingArea"];
+    var isInGame = false;
+    for (var i = 0; i < gameScreens.length; i++) {
+        var el = document.getElementById(gameScreens[i]);
+        if (el && window.getComputedStyle(el).display !== "none" && el.offsetParent !== null) {
+            isInGame = true;
+            break;
+        }
+    }
+
+    if (isLobbyVisible && !isInGame) {
         musicBox.style.display = "block";
     } else {
         musicBox.style.display = "none";
