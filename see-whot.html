@@ -85,7 +85,7 @@ input,select{width:100%;padding:12px;border:1px solid var(--ln);border-radius:12
 :focus-visible{outline:3px solid #c89a73;outline-offset:2px}
 </style></head><body>
 
-<div id="music-box" style="position:fixed; top:10px; right:10px; z-index:9999;">
+<div id="music-box" style="position:fixed; top:10px; right:10px; z-index:9999; display:block;">
     <audio id="gameMusic" loop></audio>
     <input type="file" id="songUpload" accept="audio/*" multiple style="display:none;">
     <button onclick="document.getElementById('songUpload').click()" style="background:#ffcc00; border:none; padding:8px 12px; border-radius:20px; font-weight:bold;">🎵 Add 6 Songs</button>
