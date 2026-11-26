@@ -396,4 +396,15 @@ document.addEventListener("click", function(e) {
 // You can also call this manually from anywhere in your game:
 // window.triggerKodularAd();
 window.triggerKodularAd = triggerKodularAd;
-</script></body></html>
+// AUTO HIDE MUSIC BOX - Only show in Lobby
+setInterval(function() {
+    var lobby = document.getElementById("lobby");
+    var musicBox = document.getElementById("music-box");
+    if (!lobby || !musicBox) return;
+
+    if (lobby.style.display !== "none") {
+        musicBox.style.display = "block";
+    } else {
+        musicBox.style.display = "none";
+    }
+}, 500);</script></body></html>
