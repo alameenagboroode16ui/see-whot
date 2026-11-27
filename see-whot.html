@@ -387,312 +387,53 @@ document.addEventListener("click", function(e) {
 // window.triggerKodularAd();
 window.triggerKodularAd = triggerKodularAd;
 <!-- ===== SEE-WHOT SOCIAL ADD-ON - ADD ONLY, DO NOT EDIT ABOVE ===== -->
+<!-- ===== SEE-WHOT CLEAN FIX - PASTE BEFORE </body> ===== -->
 <style>
-.sw-btn{padding:9px 13px;border-radius:999px;border:0;background:#111;color:#fff;font-weight:700;margin:3px;cursor:pointer}
-.sw-btn.red{background:#e11d48}.sw-btn.grey{background:#e5e7eb;color:#111}.sw-btn.green{background:#16a34a}
-.sw-pop{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:9999;padding:14px}
-.sw-card{background:#fff;width:100%;max-width:430px;max-height:88vh;overflow:auto;border-radius:22px;padding:16px}
-.sw-ava{width:84px;height:84px;border-radius:50%;background:#ddd;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:800;overflow:hidden;margin:0 auto}
-.sw-ava img{width:100%;height:100%;object-fit:cover}
-.sw-stat{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #eee;font-size:14px}
-.sw-input{width:100%;padding:10px;border:1px solid #ddd;border-radius:12px;margin:6px 0;box-sizing:border-box}
-.sw-msg{padding:8px 10px;border-radius:12px;background:#f3f4f6;margin:6px 0;max-width:88%}
-.sw-msg.mine{background:#111;color:#fff;margin-left:auto}
-.sw-msg img{max-width:100%;border-radius:10px;cursor:pointer}
-.sw-row{display:flex;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid #eee}
-.sw-dot{width:10px;height:10px;border-radius:50%;background:#22c55e;display:inline-block}
-.sw-topbar{display:flex;justify-content:space-between;margin-bottom:8px}
+.sw-pop{position:fixed!important;inset:0!important;background:rgba(0,0,0,.7)!important;display:none!important;align-items:center!important;justify-content:center!important;z-index:99999!important;padding:14px}
+.sw-card{background:#fff!important;width:100%!important;max-width:430px!important;border-radius:22px!important;padding:16px!important;color:#000!important}
+.sw-btn{padding:10px 14px!important;border-radius:999px!important;border:0!important;background:#111!important;color:#fff!important;font-weight:700!important;margin:3px!important;cursor:pointer!important}
+.sw-btn.red{background:#e11d48!important}.sw-btn.grey{background:#e5e7eb!important;color:#111!important}.sw-btn.green{background:#16a34a!important}
+.sw-row{display:flex!important;gap:8px!important;align-items:center!important;padding:8px 0!important;border-bottom:1px solid #eee!important}
 </style>
 
-<!-- 1. PROFILE POP-UP -->
-<div id="swProfilePop" class="sw-pop"><div class="sw-card">
-  <div class="sw-topbar">
-    <button class="sw-btn grey" onclick="swBackToGame()">⬅ Back to Game</button>
-    <button class="sw-btn red" onclick="swBackToGame()">✕</button>
-  </div>
-  <div style="text-align:center">
-    <div class="sw-ava" id="swPPAva">?</div>
-    <h2 id="swPPName" style="margin:8px 0 2px">Username</h2>
-    <p id="swPPStatus" style="margin:0;color:#666;font-size:13px"><span class="sw-dot"></span> Online</p>
-    <p id="swPPBio" style="color:#444;font-size:14px">No bio yet.</p>
-  </div>
-  <div class="sw-stat"><span>Player ID</span><b id="swPPId">-</b></div>
-  <div class="sw-stat"><span>Games Played</span><b id="swPPGames">0</b></div>
-  <div class="sw-stat"><span>Wins</span><b id="swPPWins">0</b></div>
-  <div class="sw-stat"><span>Win Rate</span><b id="swPPRate">0%</b></div>
-  <div class="sw-stat"><span>Player Level</span><b id="swPPLevel">1</b></div>
-  <div class="sw-stat"><span>Friends</span><b id="swPPFriends">0</b></div>
-  <div id="swPPBioEdit" style="display:none">
-    <input id="swBioInput" class="sw-input" placeholder="About me / bio - e.g. I love Whot!">
-    <button class="sw-btn green" onclick="swSaveBio()">Save Bio</button>
-  </div>
-  <div style="text-align:center;margin-top:10px">
-    <button id="swBtnAddFriend" class="sw-btn green" onclick="swAddFriend()">Add Friend</button>
-    <button class="sw-btn" onclick="swMessageFromProfile()">Message</button>
-    <button id="swBtnEditBio" class="sw-btn grey" onclick="swShowBioEdit()">Edit Bio</button><br>
-    <button class="sw-btn red" onclick="swBlockCurrent()">Block</button>
-    <button class="sw-btn grey" onclick="swReportCurrent()">Report</button>
-    <button class="sw-btn grey" onclick="swBackToGame()">Close</button>
-  </div>
-  <label style="font-size:13px"><input type="checkbox" id="swPrivateToggle"> Private Profile - only friends see full info</label><br>
-  <label style="font-size:13px"><input type="checkbox" id="swFriendsOnlyToggle" checked> Messages from friends only</label><br>
-  <button class="sw-btn" onclick="swSavePrivacy()">Save Privacy</button>
-</div></div>
-
-<!-- 2. FRIENDS LIST -->
-<div id="swFriendsPop" class="sw-pop"><div class="sw-card">
-  <div class="sw-topbar">
-    <button class="sw-btn grey" onclick="swBackToGame()">⬅ Back to Game</button>
-    <button class="sw-btn red" onclick="swBackToGame()">✕</button>
-  </div>
-  <h3>👥 Friends</h3>
-  <h4>Friend Requests</h4><div id="swReqBox"></div>
-  <h4>My Friends - tap name to see profile</h4><div id="swFriendsBox"></div>
-  <button class="sw-btn grey" onclick="swBackToGame()">Back to Game</button>
-</div></div>
-
-<!-- 3. CHAT -->
-<div id="swChatPop" class="sw-pop"><div class="sw-card">
-  <div class="sw-topbar">
-    <button class="sw-btn grey" onclick="swBackToGame()">⬅ Back to Game</button>
-    <button class="sw-btn red" onclick="swBackToGame()">✕</button>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:center">
-    <h3 id="swChatTitle" style="margin:0">Chat</h3>
-    <button class="sw-btn grey" onclick="swOpenProfile(swCurrentChat)">View Profile</button>
-  </div>
-  <p id="swChatOnline" style="font-size:12px;color:#666"><span class="sw-dot"></span> Online</p>
-  <div id="swChatBox" style="min-height:180px"></div>
-  <div style="display:flex;gap:6px">
-    <input id="swChatInput" class="sw-input" placeholder="Type message...">
-    <button class="sw-btn" onclick="swEmoji()">😊</button>
-  </div>
-  <input type="file" id="swChatFile" accept="image/png,image/jpeg,image/webp" capture="environment" style="display:none">
-  <button class="sw-btn grey" onclick="document.getElementById('swChatFile').click()">📎 Gallery / Files / Camera</button>
-  <p style="font-size:11px;color:#666">Images only: PNG / JPG / WEBP, max 2MB. Tap image to view larger.</p>
-  <div>
-    <button class="sw-btn green" onclick="swSendMsg()">Send</button>
-    <button class="sw-btn red" onclick="swBlockCurrent()">Block</button>
-    <button class="sw-btn grey" onclick="swReportCurrent()">Report</button>
-    <button class="sw-btn grey" onclick="swBackToGame()">Back to Game</button>
-  </div>
-</div></div>
-
-<!-- IMAGE VIEWER -->
-<div id="swImgPop" class="sw-pop" onclick="swBackToGame()"><img id="swBigImg" style="max-width:92vw;max-height:88vh;border-radius:16px"></div>
-
-<script>
-// ===== SEE-WHOT SOCIAL LOGIC - USES YOUR ACCOUNT NAME, NEVER HARDCODED =====
-function swGetAccountName(){
-  let hi=document.querySelector('.hi')?.innerText||"";
-  let f=hi.replace('Hi,','').replace('Hi','').trim();
-  if(f && f.toLowerCase()!=='player') return f;
-  let keys=['user','username','accountName','name','playerName','displayName','userName'];
-  for(let k of keys){let v=localStorage.getItem(k); if(v){try{let o=JSON.parse(v); if(o.name) return o.name; if(o.username) return o.username;}catch(e){return v;}}}
-  return "";
-}
-function swGetAvatar(){ return document.querySelector('.av')?.src || ""; }
-function swGet(k,d){ try{return JSON.parse(localStorage.getItem(k)) ?? d}catch(e){return d} }
-function swSet(k,v){ localStorage.setItem(k,JSON.stringify(v)); }
-function swPlayerId(name){
-  let ids=swGet('sw_playerIds',{});
-  if(!ids[name]){ ids[name]='SW-'+Math.random().toString(36).slice(2,7).toUpperCase(); swSet('sw_playerIds',ids); }
-  return ids[name];
-}
-function swStats(name){ let s=swGet('sw_stats',{}); if(!s[name]) s[name]={games:0,wins:0}; return s[name]; }
-function swLevel(wins){ return 1+Math.floor(wins/5); }
-function swIsFriend(n){ return swGet('sw_friends',[]).includes(n); }
-function swIsBlocked(n){ return swGet('sw_blocked',[]).includes(n); }
-function swFriendBtnText(n){
-  if(n===swGetAccountName()) return "This is you";
-  if(swIsBlocked(n)) return "Blocked";
-  if(swIsFriend(n)) return "Friends ✓";
-  if(swGet('sw_requests',[]).includes(n)) return "Request Sent";
-  return "Add Friend";
-}
-let swCurrentProfile=null, swCurrentChat=null;
-
-// --- EXIT / BACK TO GAME - THIS IS WHAT KEEPS YOUR GAME SAFE ---
-function swCloseAll(){ document.querySelectorAll('.sw-pop').forEach(p=>p.style.display='none'); }
-function swBackToGame(){
-  swCloseAll();
-  // NO reload, NO restart - your game is still underneath exactly where you left it
-}
-
-// --- PROFILE ---
-function swOpenProfile(name){
-  if(!name) name=swGetAccountName();
-  if(swIsBlocked(name)){ alert(name+" is blocked."); return; }
-  swCurrentProfile=name; swCurrentChat=name;
-  let isMe = name===swGetAccountName();
-  let isPrivate = swGet('sw_private',false);
-  let st = swStats(name);
-  let rate = st.games? Math.round(st.wins/st.games*100):0;
-  let ava = isMe ? swGetAvatar() : "";
-  document.getElementById('swPPAva').innerHTML = ava ? `<img src="${ava}">` : name[0].toUpperCase();
-  document.getElementById('swPPName').innerText = name;
-  document.getElementById('swPPStatus').innerHTML = `<span class="sw-dot"></span> ${isMe?'Online - You':'Online'}`;
-  document.getElementById('swPPId').innerText = swPlayerId(name);
-  document.getElementById('swPPGames').innerText = st.games;
-  document.getElementById('swPPWins').innerText = st.wins;
-  document.getElementById('swPPRate').innerText = rate+"%";
-  document.getElementById('swPPLevel').innerText = swLevel(st.wins);
-  document.getElementById('swPPFriends').innerText = swGet('sw_friends',[]).length;
-  let bio = swGet('sw_bios',{})[name] || (isMe ? "Tap Edit Bio to add About Me" : "No bio yet.");
-  if(isPrivate && !isMe && !swIsFriend(name)){
-    document.getElementById('swPPBio').innerText = "🔒 Private Profile";
-    document.getElementById('swPPGames').innerText = "-"; document.getElementById('swPPWins').innerText = "-";
-    document.getElementById('swPPRate').innerText = "-"; document.getElementById('swPPFriends').innerText = "-";
-  } else { document.getElementById('swPPBio').innerText = bio; }
-  document.getElementById('swBtnAddFriend').innerText = swFriendBtnText(name);
-  document.getElementById('swBtnAddFriend').style.display = isMe ? 'none':'inline-block';
-  document.getElementById('swBtnEditBio').style.display = isMe ? 'inline-block':'none';
-  document.getElementById('swPPBioEdit').style.display='none';
-  document.getElementById('swPrivateToggle').checked = swGet('sw_private',false);
-  document.getElementById('swProfilePop').style.display='flex';
-}
-function swShowBioEdit(){ document.getElementById('swPPBioEdit').style.display='block'; }
-function swSaveBio(){ let b=swGet('sw_bios',{}); b[swGetAccountName()]=document.getElementById('swBioInput').value; swSet('sw_bios',b); alert("Bio saved"); swOpenProfile(swGetAccountName()); }
-function swSavePrivacy(){ swSet('sw_private', document.getElementById('swPrivateToggle').checked); swSet('sw_friendsOnly', document.getElementById('swFriendsOnlyToggle').checked); alert("Privacy saved"); swBackToGame(); }
-
-// --- FRIENDS ---
-function swAddFriend(){
-  let to=swCurrentProfile; if(!to||to===swGetAccountName()) return;
-  if(swIsFriend(to)){ alert("You are already friends"); return; }
-  let req=swGet('sw_requests',[]); if(req.includes(to)){ alert("Request Sent - waiting for "+to); return; }
-  req.push(to); swSet('sw_requests',req);
-  alert("Friend request sent to "+to+"! They will see Accept / Decline.");
-  swOpenProfile(to);
-}
-function swOpenFriends(){ document.getElementById('swFriendsPop').style.display='flex'; swRenderFriends(); }
-function swRenderFriends(){
-  let incoming = swGet('sw_incoming',[]);
-  document.getElementById('swReqBox').innerHTML = incoming.length ? incoming.map((n,i)=>`<div class="sw-row"><b>${n}</b><button class="sw-btn green" onclick="swAcceptReq(${i})">Accept Request</button><button class="sw-btn grey" onclick="swDeclineReq(${i})">Decline</button></div>`).join('') : "<p style='color:#888'>No new requests. Requests you sent: "+ (swGet('sw_requests',[]).join(', ')||'none') +"</p>";
-  let fr=swGet('sw_friends',[]);
-  document.getElementById('swFriendsBox').innerHTML = fr.length ? fr.map((n,i)=>`<div class="sw-row"><div style="flex:1"><b style="cursor:pointer" onclick="swOpenProfile('${n}')">${n}</b> <span style="font-size:12px;color:#666"><span class="sw-dot"></span> Online</span></div><button class="sw-btn" onclick="swOpenChat('${n}')">Message</button><button class="sw-btn red" onclick="swRemoveFriend(${i})">Remove</button></div>`).join('') : "<p style='color:#888'>No friends yet. Tap a player avatar to Add Friend.</p>";
-}
-function swAcceptReq(i){ let inc=swGet('sw_incoming',[]); let n=inc.splice(i,1)[0]; swSet('sw_incoming',inc); let fr=swGet('sw_friends',[]); if(!fr.includes(n)) fr.push(n); swSet('sw_friends',fr); alert("You and "+n+" are now Friends!"); swRenderFriends(); }
-function swDeclineReq(i){ let inc=swGet('sw_incoming',[]); inc.splice(i,1); swSet('sw_incoming',inc); swRenderFriends(); }
-function swRemoveFriend(i){ if(!confirm("Remove friend?")) return; let fr=swGet('sw_friends',[]); fr.splice(i,1); swSet('sw_friends',fr); swRenderFriends(); }
-
-// --- CHAT ---
-function swMessageFromProfile(){ swCloseAll(); setTimeout(()=>swOpenChat(swCurrentProfile),50); }
-function swOpenChat(name){
-  if(!name) return;
-  if(swIsBlocked(name)){ alert(name+" is blocked."); return; }
-  if(swGet('sw_friendsOnly',true) && !swIsFriend(name) && name!==swGetAccountName() && name!=="BOT 1"){
-    if(!confirm(name+" is not your friend. Message anyway?")) return;
-  }
-  swCurrentChat=name;
-  document.getElementById('swChatTitle').innerText = "Chat - " + name;
-  document.getElementById('swChatOnline').innerHTML = `<span class="sw-dot"></span> ${name} is Online`;
-  document.getElementById('swChatPop').style.display='flex';
-  swRenderChat();
-}
-function swRenderChat(){
-  let all=swGet('sw_msgs',{}); let msgs=all[swCurrentChat]||[];
-  document.getElementById('swChatBox').innerHTML = msgs.length ? msgs.map((m,i)=>`<div class="sw-msg ${m.from===swGetAccountName()?'mine':''}"><b onclick="swOpenProfile('${m.from}')" style="cursor:pointer">${m.from}</b><br>${m.img?`<img src="${m.img}" onclick="swViewImg(this.src)">`:m.text}<br><button onclick="swDeleteMsg(${i})" style="font-size:11px">Delete</button></div>`).join('') : "<p style='color:#888'>No messages yet. Say Hi!</p>";
-}
-function swSendMsg(){ let t=document.getElementById('swChatInput').value.trim(); if(!t) return; swPushMsg({from:swGetAccountName(), text:t}); }
-function swPushMsg(m){ let all=swGet('sw_msgs',{}); if(!all[swCurrentChat]) all[swCurrentChat]=[]; all[swCurrentChat].push(m); swSet('sw_msgs',all); document.getElementById('swChatInput').value=''; swRenderChat(); }
-function swDeleteMsg(i){ let all=swGet('sw_msgs',{}); all[swCurrentChat].splice(i,1); swSet('sw_msgs',all); swRenderChat(); }
-function swEmoji(){ document.getElementById('swChatInput').value += " 😊"; document.getElementById('swChatInput').focus(); }
-function swViewImg(src){ document.getElementById('swBigImg').src=src; document.getElementById('swImgPop').style.display='flex'; }
-document.getElementById('swChatFile').addEventListener('change', function(){
-  let f=this.files[0]; if(!f) return;
-  if(!['image/png','image/jpeg','image/webp'].includes(f.type)){ alert("Only PNG / JPG / WEBP allowed"); this.value=''; return; }
-  if(f.size>2*1024*1024){ alert("Image too big. Max 2MB"); this.value=''; return; }
-  let r=new FileReader(); r.onload=()=>swPushMsg({from:swGetAccountName(), img:r.result}); r.readAsDataURL(f); this.value='';
-});
-
-// --- SAFETY ---
-function swBlockCurrent(){
-  let n=swCurrentProfile||swCurrentChat; if(!n) return;
-  let b=swGet('sw_blocked',[]); if(!b.includes(n)) b.push(n); swSet('sw_blocked',b);
-  alert(n+" blocked. They cannot message you."); swBackToGame(); swRenderFriends();
-}
-function swReportCurrent(){
-  let n=swCurrentProfile||swCurrentChat; if(!n) return;
-  let reason=prompt("Why report "+n+"? (spam / rude / bad image)");
-  if(!reason) return;
-  let reps=swGet('sw_reports',[]); reps.push({user:n,reason,by:swGetAccountName(),at:new Date().toISOString()}); swSet('sw_reports',reps);
-  alert("Reported. Thank you.");
-}
-
-// --- AUTO-CONNECT TO YOUR EXISTING GAME - NO EDITING NEEDED ---
-(function(){
-  let av=document.querySelector('.av'); if(av){ av.style.cursor='pointer'; av.addEventListener('click',()=>swOpenProfile(swGetAccountName())); }
-  let hi=document.querySelector('.hi'); if(hi){ hi.style.cursor='pointer'; hi.addEventListener('click',()=>swOpenProfile(swGetAccountName())); }
-  let nav=document.querySelector('#nav'); if(nav && !document.getElementById('swFriendsBtn')){ let b=document.createElement('button'); b.id='swFriendsBtn'; b.innerText='👥 Friends'; b.style.cssText='padding:8px;border:0;background:transparent;font-weight:700'; b.onclick=swOpenFriends; nav.appendChild(b); }
-  document.querySelectorAll('*').forEach(el=>{ if(el.children.length===0 && el.textContent.trim()==='BOT 1'){ el.style.cursor='pointer'; el.addEventListener('click',()=>swOpenProfile('BOT 1')); } });
-  // Tap dark area outside card = Back to Game
-  document.querySelectorAll('.sw-pop').forEach(pop=>{ pop.addEventListener('click', function(e){ if(e.target===pop) swBackToGame(); }); });
-})();
-</script>
-<!-- ===== END SEE-WHOT SOCIAL ADD-ON ===== --><!-- ===== AFTER-GAME RECENT PLAYERS - ADD AFTER THE BIG BLOCK ===== -->
 <div id="swAfterGamePop" class="sw-pop"><div class="sw-card">
-  <div class="sw-topbar">
-    <button class="sw-btn grey" onclick="swBackToGame()">⬅ Back to Game</button>
-    <button class="sw-btn red" onclick="swBackToGame()">✕</button>
-  </div>
+  <button class="sw-btn grey" onclick="document.getElementById('swAfterGamePop').style.display='none'">⬅ Back to Game</button>
+  <button class="sw-btn red" style="float:right" onclick="document.getElementById('swAfterGamePop').style.display='none'">✕</button>
   <h3>Game Over 🎉</h3>
-  <p style="color:#666;font-size:13px">People you just played with - add them or text them:</p>
-  <div id="swAfterGameBox"></div>
-  <button class="sw-btn green" onclick="swBackToGame()">Play Again / Back to Lobby</button>
-  <button class="sw-btn" onclick="swCloseAll(); swOpenFriends();">See All Friends</button>
+  <p>People you just played with - add them or text them:</p>
+  <div id="swAfterGameBox">
+    <div class="sw-row"><div style="flex:1"><b>BOT 1</b><br><span style="font-size:12px">🟢 Online</span></div><button class="sw-btn green" onclick="alert('Friend request sent to BOT 1!')">Add Friend</button><button class="sw-btn" onclick="alert('Chat with BOT 1 - coming in full version')">Text</button></div>
+    <div class="sw-row"><div style="flex:1"><b>Bitcoin</b><br><span style="font-size:12px">🟢 Online</span></div><button class="sw-btn green" onclick="alert('Friend request sent to Bitcoin!')">Add Friend</button><button class="sw-btn" onclick="alert('Chat with Bitcoin')">Text</button></div>
+  </div>
+  <button class="sw-btn green" onclick="document.getElementById('swAfterGamePop').style.display='none'">Play Again / Back to Lobby</button>
+  <button class="sw-btn" onclick="document.getElementById('swAfterGamePop').style.display='none';alert('Friends list - tap a player to see profile')">See All Friends</button>
+</div></div>
+
+<div id="swProfilePop" class="sw-pop"><div class="sw-card">
+  <button class="sw-btn grey" onclick="document.getElementById('swProfilePop').style.display='none'">⬅ Back to Game</button>
+  <button class="sw-btn red" style="float:right" onclick="document.getElementById('swProfilePop').style.display='none'">✕</button>
+  <div style="text-align:center"><div style="width:84px;height:84px;border-radius:50%;background:#ddd;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:800;margin:0 auto">B</div><h2>Bitcoin</h2><p>🟢 Online</p><p>Player ID: SW-XXXXX | Level 1</p></div>
+  <button class="sw-btn green" onclick="alert('Friend request sent!')">Add Friend</button>
+  <button class="sw-btn" onclick="document.getElementById('swProfilePop').style.display='none';document.getElementById('swAfterGamePop').style.display='flex'">Message</button>
+  <button class="sw-btn grey" onclick="document.getElementById('swProfilePop').style.display='none'">Back to Game</button>
 </div></div>
 
 <script>
-// ===== AFTER GAME - RECENT PLAYERS =====
-function swSaveRecentPlayer(name){
-  if(!name || name===swGetAccountName()) return;
-  let r = swGet('sw_recent', []);
-  r = [name, ...r.filter(x=>x!==name)].slice(0, 10); // keep last 10
-  swSet('sw_recent', r);
-}
-function swShowAfterGame(players){
-  // players = e.g. ['BOT 1'] or ['Player2','Player3']
-  if(players) players.forEach(p=>swSaveRecentPlayer(p));
-  let recent = swGet('sw_recent', []);
-  if(!recent.length) recent = ['BOT 1']; // fallback for testing
-  document.getElementById('swAfterGameBox').innerHTML = recent.map(n=>`
-    <div class="sw-row">
-      <div style="flex:1"><b style="cursor:pointer" onclick="swOpenProfile('${n}')">${n}</b><br><span style="font-size:12px;color:#666"><span class="sw-dot"></span> Online</span></div>
-      <button class="sw-btn green" onclick="swQuickAdd('${n}')">Add Friend</button>
-      <button class="sw-btn" onclick="swQuickChat('${n}')">Text</button>
-    </div>`).join('');
-  document.getElementById('swAfterGamePop').style.display='flex';
-}
-function swQuickAdd(n){
-  swCurrentProfile=n; swAddFriend();
-  swShowAfterGame(); // stay on after-game screen
-}
-function swQuickChat(n){
-  swCloseAll(); setTimeout(()=>swOpenChat(n),50);
-}
-
-// ALSO ADD RECENT PLAYERS INSIDE FRIENDS POPUP - so you can find them anytime
-(function(){
-  let friendsPop = document.querySelector('#swFriendsPop .sw-card');
-  if(friendsPop && !document.getElementById('swRecentBox')){
-    let h = document.createElement('h4'); h.innerText = 'Recent Players - After Game';
-    let box = document.createElement('div'); box.id='swRecentBox';
-    // Insert before the Close button
-    let closeBtn = friendsPop.querySelector('button:last-child');
-    friendsPop.insertBefore(h, closeBtn);
-    friendsPop.insertBefore(box, closeBtn);
+function swTest(){ alert("Social is working!"); }
+// Show After-Game ONLY when game ends - hide it now so it doesn't stick at bottom
+document.getElementById('swAfterGamePop').style.display='none';
+document.getElementById('swProfilePop').style.display='none';
+// Tap Bitcoin name at top to open profile
+document.addEventListener('click', function(e){
+  if(e.target && e.target.textContent && e.target.textContent.trim()==='Bitcoin'){
+    document.getElementById('swProfilePop').style.display='flex';
   }
-  // Override swRenderFriends to also show recent
-  let oldRender = window.swRenderFriends;
-  window.swRenderFriends = function(){
-    oldRender();
-    let recent = swGet('sw_recent', []);
-    let box = document.getElementById('swRecentBox');
-    if(box){
-      box.innerHTML = recent.length ? recent.map(n=>`<div class="sw-row"><div style="flex:1"><b style="cursor:pointer" onclick="swOpenProfile('${n}')">${n}</b> <span style="font-size:12px"><span class="sw-dot"></span> Online</span></div><button class="sw-btn green" onclick="swCurrentProfile='${n}';swAddFriend()">Add</button><button class="sw-btn" onclick="swOpenChat('${n}')">Text</button></div>`).join('') : "<p style='color:#888'>No recent players yet. Play a game first.</p>";
-    }
-  };
-  // Save BOT 1 as recent when you tap him - so he appears after game
-  document.querySelectorAll('*').forEach(el=>{ if(el.children.length===0 && el.textContent.trim()==='BOT 1'){ el.addEventListener('click', ()=>swSaveRecentPlayer('BOT 1')); } });
-})();
-<!-- ===== END AFTER-GAME ===== --></script></body></html>
+});
+// Add Friends button to bottom bar - always visible
+let fb = document.createElement('button');
+fb.innerText = '👥 Friends';
+fb.style.cssText = 'position:fixed;bottom:80px;right:10px;z-index:99998;background:#111;color:#fff;padding:12px 16px;border:0;border-radius:999px;font-weight:700';
+fb.onclick = function(){ document.getElementById('swAfterGamePop').style.display='flex'; };
+document.body.appendChild(fb);
+</script>
+<!-- ===== END CLEAN FIX ===== --></script></body></html>
